@@ -53,10 +53,6 @@ $stmt->close();
                     }
                     ?>
                 </ul>
-                <div class="navbar-text text-white fs-3">
-                    <i style="cursor: pointer;" onclick="resumeaudio();" class="bi-play-circle-fill  me-3"></i>
-                    <i style="cursor: pointer;" onclick="pauzeaudio();" class="bi bi-pause-circle-fill"></i>
-                </div>
             </div>
         </div>
     </nav>
@@ -74,7 +70,7 @@ $stmt->close();
                                 <input disabled type="range" class="form-range float-right pt-2">
                             </div>
                             <div class="col-2">
-                                <p class="m-0 p-0"><small>2:33/3:20</small></p>
+                                <p class="m-0 p-0"><small>0.00/<span id="duration">0.00</span></small></p>
                             </div>
                         </div>
                     </div>
@@ -95,20 +91,48 @@ $stmt->close();
     <div id="audio"></div>
     <script>
         function playaudio(id) {
+        	// Get audio file
             document.getElementById("audio").innerHTML = "<audio id='testAudio' hidden src='https://beroeps29.ict-lab.nl/music/"+id+".mp3' type='audio/mpeg'></audio>"; 
+
+            // Play Audio
             var audio = document.getElementById('testAudio');
+            getDuration();
             audio.play();
+
         }
 
         function pauzeaudio() {
+        	// Pauze Audio
             var audio = document.getElementById('testAudio');
             audio.pause();
+            getDuration();
         }
 
         function resumeaudio() {
+        	// Resume adio
             var audio = document.getElementById('testAudio');
             audio.play();
+            getDuration();
         }
+
+        function getDuration() {
+        	// Get duration
+            var duration = document.getElementById("testAudio").duration;
+
+            var minutes = Math.floor(duration / 60);
+            var seconds = duration - minutes * 60;
+            var seconds = seconds.toFixed(0);
+
+            // Put duration as innerhtml element duration
+            document.getElementById("duration").innerHTML = minutes+":"+seconds;
+
+            // Current time
+            var currenttime = document.getElementById("testAudio").currentTime;
+            console.log(currenttime);
+        }
+
+        
+
     </script>
 </body>
 
